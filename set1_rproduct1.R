@@ -8,7 +8,7 @@ print (mu_a)
 
 # another sample script ---------------------------------------------------
 
-v <- c(1, 4, 8)
-med_v <- median(v)
-print (med_v)
+b <- c(1, 4, 8)
+med_b <- median(b)
+print (med_b)
 
