@@ -161,7 +161,8 @@ ggplot(data = df1,
 geom_histogram(binwidth = 0.04) +
   geom_vline(xintercept = mean(z), linetype = 'dashed', color = 'darkblue') +
   geom_vline(xintercept = prod(z)^(1/length(z)), color = 'purple') +
-  geom_vline(xintercept = median(z), color = 'green')
+  geom_vline(xintercept = median(z), color = 'green') +
+  coord_cartesian(xlim=c(0.9, 1.1))  #zoom without losing data points
 
 #4:
 z_rev <- -z +max(z) + 0.1
