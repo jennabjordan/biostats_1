@@ -88,11 +88,11 @@ print(cv_y)
 
 
 # IQR
-
-# 25th and 75th percentiles as xl and xh (l = low value, h = high value)
+## 25th and 75th percentiles as xl and xh (l = low value, h = high value)
 
 x_l <- quantile(x, 0.25)
 x_h <- quantile(x, 0.75)
+x_l; x_h
 iqr_x <- abs(x_l - x_h)  #abs() = absolute value
 print(iqr_x)
 
@@ -101,17 +101,18 @@ iqr_y <- abs(y_q[1] - y_q[2])   #[1] = 25th percentile & [2] = 75th
 print(iqr_y)
 
 
-# MAD ---------------------------------------------------------------------
+# MAD
 
-ad_x <- abs(x - mean(x))   #abs() = absolute value
+ad_x <- abs(x - median(x))   #abs() = absolute value
+ad_x
 mad_x <- median(ad_x)
 print(mad_x)
 
-mad_y <- median(abs(y - mean(y)))
+mad_y <- median(abs(y - median(y)))
 print(mad_y)
 
 
-# MAD/Median --------------------------------------------------------------
+# MAD/Median
 
 mm_x <- mad_x / median(x)
 print(mm_x)
