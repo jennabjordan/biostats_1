@@ -5,6 +5,9 @@
 #' author: Jenna Jordan
 #' ---
 
+#+ message = FALSE, warning = FALSE
+library(tidyr)
+library(tidyverse)
 
 # Central Tendencies ------------------------------------------------------
 
@@ -148,8 +151,6 @@ print(median(z))
 #2:
 #Histogram
    #use tibble, ggplot, geom_histogram
-library(tidyr)
-library(tidyverse)
 
 z <- exp(rnorm(n=1000, mean = 0, sd = 0.1))
 df1 <- tibble(z, 1:1000)
