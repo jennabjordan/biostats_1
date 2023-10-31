@@ -64,9 +64,64 @@ df_count %>%
 
 # Mussel Egg Data
 
-df_mussel <- read.csv(here::here("data.raw/data_mussel.csv"))
+df_mussel <- read.csv(here::here("data_raw/data_mussel.csv")) %>%
+  mutate(prop_fert = n_fertilized / n_examined) #proportion of fertilized eggs
+df_mussel
 
+#visualize proportion vs density
 
+df_mussel %>%
+  ggplot(aes(x = density,
+             y = prop_fert)) +
+  geom_point() +
+  labs(y = "Proportion of Fertilized Eggs",
+       x = "Mussel Density",
+       title = "Mussel Density Compared to the Proportion of Fertilized Eggs")
+
+# Binomial Distribution 
+
+df_test <- tibble(logit_p = seq(-10, 10, length = 100), #logit_p = log of the parameters; guarantees values are 0.0 to 1.0
+                  p = exp(logit_p) / (1 + exp(logit_p)))
+df_test
+
+df_test %>%
+  ggplot(aes(x = logit_p,
+             y = p)) +
+  geom_point() +
+  geom_line(color = "slateblue1") +
+  labs(x = "log(P / 1 - P)",
+       y = "P")
+
+#use binomial glm
+
+m_binom <- glm(cbind(n_fertilized, n_examined - n_fertilized) ~ density, #first part is response variable ~ explanatory variable
+               data = df_mussel,
+               family = "binomial")
+
+m_binom
+summary(m_binom)
+
+## make prediction
+
+df_pred <- tibble(density = seq(min(df_mussel$density),
+                                max(df_mussel$density),
+                                length = 100)) %>%
+  mutate(logit_y_hat = predict(m_binom, newdata = .),
+          y_hat = exp(logit_y_hat) / (1 + exp(logit_y_hat))) #or use (boot::inv.logit(logit_y_hat))
+df_pred
+
+#plot fertilization prop data vs. density
+#overlay the predicted values from the model
+
+df_mussel %>%
+  ggplot(aes(x = density,
+             y = prop_fert)) +
+  geom_point() +
+  geom_line(data = df_pred, 
+            aes(y = y_hat), 
+            color = "hotpink") 
+
+#GLM Framework
 
 # Laboratory --------------------------------------------------------------
 
