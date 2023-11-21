@@ -86,3 +86,35 @@ AIC(m2) #higher because x2 is useless parameter
 # Laboratory --------------------------------------------------------------
 
 library(palmerpenguins)
+penguins_raw <- read_csv(here::here("data_raw/penguins_raw.csv"))
+penguins_raw
+
+#10.3.1 Format Penguin Data
+##1 - clean up data set
+#make column names lowercase
+penguins_raw <- rename_with(penguins_raw, tolower)
+
+#replace white space
+colnames(penguins_raw) <- (gsub(" ", "_", colnames(penguins_raw)))
+
+#remove unit notations
+#???
+
+##2 - Clutch Completion
+
+penguins_raw$clutch_completion <- ifelse(penguins_raw$clutch_completion == "Yes", 1, 0)
+
+#3
+penguins_raw$species[penguins_raw$species == "Adelie Penguin (Pygoscelis adeliae)"] <- "Adelie"
+penguins_raw$species[penguins_raw$species == "Chinstrap penguin (Pygoscelis antarctica)"] <- "Chinstrap"
+penguins_raw$species[penguins_raw$species == "Gentoo penguin (Pygoscelis papua)"] <- "Gentoo"
+
+#4 - drop NA
+penguins_raw <- drop_na(penguins_raw)
+
+#10.3.2 Analyze Penguin Data
+  
+data <- penguins_raw %>%
+  select(species, `culmen_length_(mm)`, `culmen_depth_(mm)`, `flipper_length_(mm)`, `body_mass_(g)`, sex, clutch_completion)
+
+
